@@ -1,0 +1,125 @@
+﻿@model ToDos.Models.ViewModels.CategoriesViewModel
+@{
+    ViewData["Title"] = "ToDo Management System";
+}
+
+<table class="table">
+    <tr>
+        <td class="col-4">
+        </td>
+        <td>
+            <form asp-controller="Home" asp-action="IndexFiltered">
+                <p>
+                    <div class="form-group">
+                        <input type="hidden" asp-for="@Model.SelectedCategory" name="category"/>
+                        <input type="text" id="text" name="search" />
+                        <button asp-action="IndexFiltered" class="btn btn-primary">Search</button>
+                    </div>
+                </p>
+            </form>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <h2 class="col-4">Categories</h2>
+        </td>
+        <td>
+            <h2 class="col-5">ToDos</h2>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div style="display:inline-block; width:400px">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Categories[0].Name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Categories[0].Description)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Categories != null)
+                        {
+                            @foreach (var item in Model.Categories)
+                            {
+                                <tr style="@(item.Name.Equals(Model.SelectedCategory) ? "background-color: antiquewhite" : "background-color:aliceblue")"
+                                    onclick="location.href='@(Url.Action("IndexSelected", "Home", new { name = item.Name }))'">
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Description)
+                                    </td>
+                                    <td>
+                                        <a asp-controller="Home" asp-action="EditCategory" asp-route-id="@item.Id">Edit</a> |
+                                        <a asp-controller="Home" asp-action="DeleteCategory" asp-route-id="@item.Id">Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+
+                    </tbody>
+                </table>
+                <a asp-action="CreateCategory">Create New Category</a>
+            </div>
+        </td>
+        <td>
+            <div style="display: inline-block; width: 800px">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ToDos.Values.First()[0].Activity)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ToDos.Values.First()[0].Status)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ToDos.Values.First()[0].Priority)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ToDos.Values.First()[0].ModifiedDate)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.ToDos.Any())
+                        {
+                            @foreach (var item in Model.ToDos.Values.First())
+                            {
+                                <tr style="background-color:#fdf2e3">
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Activity)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Status)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Priority)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ModifiedDate)
+                                    </td>
+                                    <td>
+                                        <a asp-controller="ToDo" asp-action="EditToDo" asp-route-id="@item.Id">Edit</a> |
+                                        <a asp-controller="ToDo" asp-action="DeleteToDo" asp-route-id="@item.Id">Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+
+                    </tbody>
+                </table>
+                <a asp-controller="ToDo" asp-action="CreateToDo">Create New ToDo</a>
+            </div>
+        </td>
+    </tr>
+</table>
+
+
