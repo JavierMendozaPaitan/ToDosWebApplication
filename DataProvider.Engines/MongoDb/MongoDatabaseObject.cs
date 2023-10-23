@@ -27,7 +27,7 @@ namespace DataProvider.Engines.MongoDb
                 _config = config;
                 _logger = logger;
                 var settings = _config.SysDbConfig.ToDoDatabase.Settings;
-                var connectionString = $@"{settings.Protocol}://TestingUser:hrmtaohBmqVJ0TSJ@{settings.Url}/{Name}?{settings.Query}";
+                var connectionString = $@"{settings.Protocol}://Javier_ToDo_2023:sbVKHRHiIXtSlC0S@{settings.Url}/{Name}?{settings.Query}";
                 _client = new MongoClient(connectionString);
                 _database = _client.GetDatabase(Name);
             }
